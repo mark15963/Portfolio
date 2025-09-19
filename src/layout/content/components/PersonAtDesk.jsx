@@ -30,6 +30,7 @@ const preloadImages = () => {
 
 export default function PersonAtDesk({ stop = false, refresh = 0 }) {
   const [mouseX, setMouseX] = useState(0)
+  const [touchX, setTouchX] = useState(null)
   const [handFrame, setHandFrame] = useState(0)
   const [imagesLoaded, setImagesLoaded] = useState(false)
 
@@ -48,10 +49,34 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
     return () => clearTimeout(timer);
   }, []);
 
+  // Mouse movement handler
   useEffect(() => {
     const handleMouseMove = (e) => setMouseX(e.clientX)
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
+  // Touch movement handler
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        setTouchX(e.touches[0].clientX);
+      }
+    }
+    const handleTouchEnd = () => {
+      // Reset to center after a short delay when touch ends
+      setTimeout(() => setHandFrame(0), 300)
+    }
+
+    window.addEventListener('touchmove', handleTouchMove)
+    window.addEventListener('touchend', handleTouchEnd)
+    window.addEventListener('touchcancel', handleTouchEnd)
+
+    return () => {
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('touchcancel', handleTouchEnd)
+    }
   }, [])
 
   useEffect(() => {
@@ -60,6 +85,7 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
     return () => window.removeEventListener('mouseout', handleMouseOut)
   }, [mouseX])
 
+  // Calculate hand frame based on input
   useEffect(() => {
     if (stop || !imagesLoaded) {
       return
@@ -67,7 +93,8 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
 
     const width = window.innerWidth;
     const center = width / 2
-    const offset = mouseX - center
+    const inputX = touchX !== null ? touchX : mouseX
+    const offset = inputX - center
 
     if (Math.abs(offset) < 10) {
       // ЦЕНТР
@@ -91,7 +118,27 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
     } else {
       setHandFrame(0)
     }
-  }, [mouseX, stop, refresh, imagesLoaded])
+  }, [mouseX, touchX, stop, refresh, imagesLoaded])
+
+  // Throttle the frame updates on mobile
+  useEffect(() => {
+    let animationFrameId;
+
+    const updateFrame = () => {
+      // Your frame calculation logic here
+      animationFrameId = requestAnimationFrame(updateFrame);
+    };
+
+    if (touchX !== null) {
+      animationFrameId = requestAnimationFrame(updateFrame);
+    }
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [touchX]);
 
   const imageSrc = useMemo(() => {
     return `../../imgs/frame_${handFrame}.png`
@@ -100,15 +147,32 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
   return (
     <>
       {imagesLoaded ? (
-        <img
-          src={imageSrc}
-          alt="Hand"
-          style={{
-            width: 'auto',
-            height: 'auto'
-          }}
-          loading="lazy"
-        />
+        <div style={{
+          touchAction: 'none',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <img
+            src={imageSrc}
+            alt="Hand"
+            style={{
+              width: 'auto',
+              height: 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
+              userSelect: 'none',
+              WebkitTouchCallout: 'none',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+            loading="lazy"
+          />
+        </div>
       ) : (
         <div style={{ width: '100%', height: '100%', background: '#f0f0f0' }}>
           <SpinLoader color="#0c0058ff" />

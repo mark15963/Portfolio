@@ -1,4 +1,4 @@
-import Menu from "../components/Menu"
+import Menu from "./components/Menu"
 
 const Header = () => {
     return (
@@ -11,7 +11,7 @@ const Header = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    background: '#fffee6ff',
+                    background: '#241c50ff',
                     zIndex: 0
                 }}
             >

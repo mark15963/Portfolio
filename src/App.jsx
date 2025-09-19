@@ -1,23 +1,26 @@
 import { useState } from 'react'
-import Content from './layout/Content'
-import Footer from './layout/Footer'
-import Header from './layout/Header'
-import { LeftSideWindow, RightSideWindow } from './components/SideWindows'
+import Content from './layout/content/Content'
+import Footer from './layout/footer/Footer'
+import Header from './layout/header/Header'
+import { LeftSideWindow, RightSideWindow } from './layout/content/components/SideWindows'
 
-function App() {
+export default function App() {
   const [showLeftWindow, setShowLeftWindow] = useState(false)
   const [showRightWindow, setShowRightWindow] = useState(false)
   const [refresh, setRefresh] = useState(0)
 
   return (
-    <>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh'
+    }}>
       {showLeftWindow && (
         <LeftSideWindow onClose={() => {
           setShowLeftWindow(false)
           setRefresh(prev => prev + 1)
         }} />
       )}
-
       {showRightWindow && (
         <RightSideWindow onClose={() => {
           setShowRightWindow(false)
@@ -46,8 +49,6 @@ function App() {
         stop={showLeftWindow || showRightWindow}
       />
       <Footer />
-    </>
+    </div>
   )
 }
-
-export default App

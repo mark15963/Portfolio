@@ -1,6 +1,7 @@
-import PersonAtDesk from "../components/PersonAtDesk"
+import Article from "./Article"
+import PersonAtDesk from "./components/PersonAtDesk"
 
-import styles from './content.module.scss'
+import styles from './style/content.module.scss'
 
 const Content = ({ onShowLeftWindow, onShowRightWindow, refresh, stop }) => {
 
@@ -8,7 +9,11 @@ const Content = ({ onShowLeftWindow, onShowRightWindow, refresh, stop }) => {
     const handleClickRight = () => onShowRightWindow()
 
     return (
-        <>
+        <div style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             <main>
                 <div
                     style={{
@@ -38,10 +43,8 @@ const Content = ({ onShowLeftWindow, onShowRightWindow, refresh, stop }) => {
                 </div>
 
             </main>
-            <article>
-                ARTICLE
-            </article>
-        </>
+            <Article />
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import styles from './sideWindows.module.scss'
+import styles from '../style/sideWindows.module.scss'
 
 export const LeftSideWindow = ({ onClose }) => {
     return (
