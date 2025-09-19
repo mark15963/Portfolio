@@ -148,7 +148,7 @@ export default function PersonAtDesk({ stop = false, refresh = 0 }) {
     <>
       {imagesLoaded ? (
         <div style={{
-          touchAction: 'none',
+          touchAction: 'manipulation',
           width: '100%',
           height: '100%',
           display: 'flex',
