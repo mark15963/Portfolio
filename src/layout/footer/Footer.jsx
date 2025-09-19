@@ -3,7 +3,7 @@ const Footer = () => {
         <>
             <footer
                 style={{
-                    height: '20px',
+                    height: '30px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
