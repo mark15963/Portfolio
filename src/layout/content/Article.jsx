@@ -1,3 +1,6 @@
+import ModelCanvas from "./components/Model";
+import Render from "./components/Model";
+
 const Article = () => {
     return (
         <article style={{
@@ -6,10 +9,11 @@ const Article = () => {
         }}>
             <div style={{
                 width: '100%',
-                height: '80px',
+                height: 'fit-content',
                 border: '7px double black',
             }}>
-
+                <div style={{ width: '100%', textAlign: 'center' }}>A 3D model Three.js</div>
+                <ModelCanvas />
             </div>
             <div style={{
                 margin: '20px'

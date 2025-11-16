@@ -1,4 +1,4 @@
-import Menu from "./components/Menu"
+import Navbar from "./components/Navbar"
 
 const Header = () => {
     return (
@@ -15,7 +15,7 @@ const Header = () => {
                     zIndex: 0
                 }}
             >
-                <Menu />
+                <Navbar />
             </header>
         </>
     )
