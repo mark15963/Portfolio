@@ -1,5 +1,4 @@
 import ModelCanvas from "./components/Model";
-import Render from "./components/Model";
 
 const Article = () => {
     return (
