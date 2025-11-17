@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense, useRef } from "react";
 
 const Model = ({ rotationSpeed = 0.5 }) => {
   const modelRef = useRef()
-  const model = useGLTF('./Untitled.glb')
+  const model = useGLTF('./RosUniMed_logo.glb')
 
   useFrame((state, delta) => {
     if (modelRef.current) {
